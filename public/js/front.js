@@ -3,6 +3,8 @@ let data = {
     items: []
 }
 
+let url = 'https://wintermdd.herokuapp.com'
+
 cant = document.getElementById('cant')
 
 if (localStorage.getItem("car") !== null) {
@@ -49,7 +51,7 @@ function listProducts() {
 function setName() {
     data.name = document.getElementById('name').value
     localStorage.setItem('car', JSON.stringify(data))
-    window.location = "http://localhost:3000/home"
+    window.location = url + "/home"
 }
 
 function setItem(e) {

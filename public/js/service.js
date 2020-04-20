@@ -1,3 +1,5 @@
+url = 'https://wintermdd.herokuapp.com/'
+
 
 $("#prueba").click(function (e) {
     e.preventDefault()
@@ -7,7 +9,7 @@ $("#prueba").click(function (e) {
     img = $('#img')
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/product",
+        url: url + "/product",
         data: {
             code: code.val(),
             description: description.val(),

@@ -1,4 +1,4 @@
-url = 'https://wintermdd.herokuapp.com/'
+url = 'https://wintermdd.herokuapp.com'
 
 
 $("#prueba").click(function (e) {

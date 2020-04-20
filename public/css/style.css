@@ -69,11 +69,6 @@ body {
 
 }
 
-.body div {
-    background-color: red;
-    width: 500px;
-    height: 500px;
-}
 
 .row {
     display: flex;

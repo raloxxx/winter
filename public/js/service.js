@@ -1,26 +1,33 @@
-url = 'https://wintermdd.herokuapp.com'
-
-
 $("#prueba").click(function (e) {
     e.preventDefault()
 
     code = $('#code')
     description = $('#description')
-    img = $('#img')
+
+    let formData = new FormData(document.getElementById("frmProduct"));
+
+    dataProduct = {
+        code: code.val(),
+        description: description.val(),
+        img: ''
+    }
+
     $.ajax({
         method: "POST",
         url: url + "/product",
-        data: {
-            code: code.val(),
-            description: description.val(),
-            img: img.val()
-        }
+        data: dataProduct
     }).done(function (msg) {
-        alert("Producto guardado")
-        code.val('')
-        description.val('')
-        img.val('')
+        $.ajax({
+            method: "POST",
+            url: url + "/product/img",
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function (msg) {
+            console.log(msg)
+        });
     });
+    
 });
 
 

@@ -3,22 +3,28 @@
     <section class="body text-center" style="padding: 10px;">
 
         <div style="width:70%; margin: 50px auto 0 auto;">
-            <form action="">
+            <form enctype="multipart/form-data" action="" id="frmProduct">
                 <div class="form-group">
                     <label style="color: white;" for="">Codigo</label>
-                    <input class="form-control" type="text" id="code">
+                    <input class="form-control" type="text" id="code" name="code">
                 </div>
                 <div class="form-group">
                     <label style="color: white;" for="">Descripcion</label>
-                    <input class="form-control" type="text" id="description">
+                    <input class="form-control" type="text" id="description" name="description">
                 </div>
                 <div class="form-group">
-                    <label style="color: white;" for="">Imagen</label>
-                    <input class="form-control" type="text" id="img">
-                </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" onchange="changeFile(event)" id="img" name="img" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
+                    </div>
 
-                <a class="btn btn-success btn-block" id="prueba">Guardar</a>
+                </div>
+                <img id="blah" style="max-width: 150px; max-height: 150px;" src="https://via.placeholder.com/150" alt="Tu imagen"/>
+                <br>
+                <br>
+                <input type="submit" value="guardar" class="btn btn-success btn-block" id="prueba">
             </form>
+
         </div>
 
 

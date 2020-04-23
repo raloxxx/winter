@@ -81,9 +81,26 @@ router
 
         files.img.mv(imagePath + imgName, err => {
             if (err) return res.status(500).send({ message: err })
+            
+            product = new Product({
+                code: body.code,
+                description: body.description,
+                img: imgName
+            })
 
+            product.save(err => {
+                if (err)
+                    throw err
+                console.log("Product save")
+            })
+
+            res.status(200).json({
+                status: true,
+                data: product
+            })
             return res.status(200).send({ message: 'File upload' })
         })
+
 
         // var fileMetadata = {
         //     'name': 'photo.jpg'
@@ -104,20 +121,7 @@ router
         //         console.log('File Id: ', file.id);
         //     }
         // });
-        // const body = req.body
-        // body.img = imgName
-        // product = new Product(body)
-
-        // product.save(err => {
-        //     if (err)
-        //         throw err
-        //     console.log("Product save")
-        // })
-
-        // res.status(200).json({
-        //     status: true,
-        //     data: product
-        // })
+        // 
     })
     .post('/product/img', (req, res, next) => {
         console.log("fgggggg")

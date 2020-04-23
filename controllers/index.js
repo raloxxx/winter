@@ -77,11 +77,11 @@ router
         imgName = splitName[0] + '-' + Date.now() + '.' + ext
 
         console.log(files)
-        const drive = google.drive({ version: 'v3', auth })
+        // const drive = google.drive({ version: 'v3', auth })
 
         files.img.mv(imagePath + imgName, err => {
             if (err) return res.status(500).send({ message: err })
-            
+
             product = new Product({
                 code: body.code,
                 description: body.description,
@@ -94,11 +94,10 @@ router
                 console.log("Product save")
             })
 
-            res.status(200).json({
+            return res.status(200).json({
                 status: true,
                 data: product
             })
-            return res.status(200).send({ message: 'File upload' })
         })
 
 

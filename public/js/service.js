@@ -7,8 +7,8 @@ $("#prueba").click(function (e) {
     let formData = new FormData(document.getElementById("frmProduct"));
 
     dataProduct = {
-        code: code.val(),
-        description: description.val(),
+        code: code.val().toUpperCase(),
+        description: description.val().toUpperCase(),
         img: ''
     }
 
@@ -25,6 +25,12 @@ $("#prueba").click(function (e) {
             contentType: false
         }).done(function (msg) {
             console.log(msg)
+            alert("producto Guardado")
+            code.val('')
+            description.val('')
+            code.val('')
+            img = document.getElementById('blah')
+            img.src = "https://via.placeholder.com/150"
         });
     });
     

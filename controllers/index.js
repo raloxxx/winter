@@ -15,7 +15,9 @@ const Product = require("../models/product")
 let imgName = ''
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(null, './public/assets/uploads');
+        let imagePath = path.join(__dirname, '../public/assets/uploads')
+        console.log(imagePath)
+        callback(null, imagePath);
     },
     filename: function (req, file, callback) {
         const splitName = file.originalname.split('.')
@@ -78,6 +80,8 @@ router
         })
     })
     .post('/product/img', (req, res, next) => {
+        console.log("fgggggg")
+        console.log(req.file)
         const upload = multer({ storage: storage }).single("img");
 
         upload(req, res, function (err) {

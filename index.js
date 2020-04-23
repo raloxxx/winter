@@ -1,9 +1,15 @@
 const path = require('path')
+const fs = require('fs')
 
-const express = require('express');
-const handlebars = require('express-handlebars');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const express = require('express')
+const handlebars = require('express-handlebars')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
+const readline = require('readline')
+
+
+
 
 
 
@@ -11,6 +17,7 @@ const routes = require('./controllers')
 
 
 const app = express();
+
 const port = process.env.PORT || 3000;
 
 
@@ -23,7 +30,8 @@ app.use(function (req, res, next) {
     next();
 })
 
-
+// Files
+app.use(fileUpload())
 
 // ------------------------------------------------------- //
 // Sets our app to use the handlebars engine
@@ -53,7 +61,7 @@ mongoose.connect('mongodb+srv://juan:juan@bytecode-dhysx.mongodb.net/dbwinter?re
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(msg => {
-    console.log("conectado")
-    app.listen(port, () => console.log(`App listening to port ${port}`));
-})
+    .then(msg => {
+        console.log("conectado")
+        app.listen(port, () => console.log(`App listening to port ${port}`));
+    })

@@ -3,8 +3,8 @@ let data = {
     items: []
 }
 
-let url = 'https://wintermdd.herokuapp.com'
-// let url = 'http://localhost:3000'
+// let url = 'https://wintermdd.herokuapp.com'
+let url = 'http://localhost:3000'
 
 cant = document.getElementById('cant')
 

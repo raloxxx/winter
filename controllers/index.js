@@ -4,10 +4,14 @@ var util = require('util')
 
 const express = require("express")
 const multer = require('multer')
-const router = express.Router()
+const { google } = require('googleapis')
+
+const { auth } = require('../googleOAuth')
 
 const Order = require("../models/order")
 const Product = require("../models/product")
+
+const router = express.Router()
 
 
 // Configuracion de multer, localizacion de archivo
@@ -63,21 +67,57 @@ router
         res.render("product")
     })
     .post("/product", (req, res, next) => {
-
         const body = req.body
-        body.img = imgName
-        product = new Product(body)
+        const files = req.files
 
-        product.save(err => {
-            if (err)
-                throw err
-            console.log("Product save")
+        let imagePath = path.join(__dirname, '../public/assets/uploads/')
+
+        const splitName = files.img.name.split('.')
+        const ext = splitName[splitName.length - 1]
+        imgName = splitName[0] + '-' + Date.now() + '.' + ext
+
+        console.log(files)
+        const drive = google.drive({ version: 'v3', auth })
+
+        files.img.mv(imagePath + imgName, err => {
+            if (err) return res.status(500).send({ message: err })
+
+            return res.status(200).send({ message: 'File upload' })
         })
 
-        res.status(200).json({
-            status: true,
-            data: product
-        })
+        // var fileMetadata = {
+        //     'name': 'photo.jpg'
+        // };
+        // var media = {
+        //     mimeType: 'image/jpeg',
+        //     body: fs.createReadStream(files.img.data)
+        // };
+        // drive.files.create({
+        //     resource: fileMetadata,
+        //     media: media,
+        //     fields: 'id'
+        // }, function (err, file) {
+        //     if (err) {
+        //         // Handle error
+        //         console.error(err);
+        //     } else {
+        //         console.log('File Id: ', file.id);
+        //     }
+        // });
+        // const body = req.body
+        // body.img = imgName
+        // product = new Product(body)
+
+        // product.save(err => {
+        //     if (err)
+        //         throw err
+        //     console.log("Product save")
+        // })
+
+        // res.status(200).json({
+        //     status: true,
+        //     data: product
+        // })
     })
     .post('/product/img', (req, res, next) => {
         console.log("fgggggg")

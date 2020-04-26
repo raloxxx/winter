@@ -1,34 +1,36 @@
+const readline = require('readline')
 const fs = require('fs')
 
 const { google } = require('googleapis')
 
+
 // Google apis
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const TOKEN_PATH = 'token.json';
-let auth
+
 fs.readFile('credentials.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     // Authorize a client with credentials, then call the Google Drive API.
-    auth = authorize(JSON.parse(content));
+    authorize(JSON.parse(content), listFiles);
 });
 
 
-function authorize(credentials) {
+function authorize(credentials, callback) {
     const { client_secret, client_id, redirect_uris } = credentials.web;
+    console.log(client_id, client_secret, redirect_uris)
     const oAuth2Client = new google.auth.OAuth2(
         client_id, client_secret, redirect_uris[0]);
 
     // Check if we have previously stored a token.
     fs.readFile(TOKEN_PATH, (err, token) => {
-        if (err) return getAccessToken(oAuth2Client);
+        if (err) return getAccessToken(oAuth2Client, callback);
         oAuth2Client.setCredentials(JSON.parse(token));
-        return oAuth2Client
+        callback(oAuth2Client);
     });
-
 }
 
 
-function getAccessToken(oAuth2Client) {
+function getAccessToken(oAuth2Client, callback) {
     const authUrl = oAuth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: SCOPES,
@@ -48,11 +50,34 @@ function getAccessToken(oAuth2Client) {
                 if (err) return console.error(err);
                 console.log('Token stored to', TOKEN_PATH);
             });
-            return oAuth2Client
+            callback(oAuth2Client);
         });
     });
 }
+function listFiles(auth) {
+    const drive = google.drive({ version: 'v3', auth });
 
-module.exports = {
-    auth
+    var fileMetadata = {
+        'name': 'photo.jpg'
+    };
+    var media = {
+        mimeType: 'image/jpeg',
+        body: fs.createReadStream('public/assets/uploads/8fc21c9a-4869-4958-8787-12b02f6d031e-1587633552500.jpg')
+    };
+    drive.files.create({
+        resource: fileMetadata,
+        media: media,
+        fields: 'id'
+    }, function (err, file) {
+        if (err) {
+            // Handle error
+            console.error(err);
+        } else {
+            console.log('File Id: ', file.id);
+            return res.status(200).json({
+                status: true,
+                data: product
+            })
+        }
+    });
 }

@@ -82,8 +82,6 @@ module.exports = async () => {
 
             body.description = body.description.toUpperCase()
 
-            console.log(body)
-
 
             imgName = splitName[0] + '-' + Date.now() + '.' + ext
 
@@ -96,25 +94,25 @@ module.exports = async () => {
                         '6cb435a5093c4deb'
                     ),
                     imagePath + imgName, {
-                    title: 'Works on MY machine!'
+                    title: splitName
                 });
 
                 upload.then(function (res) {
                     console.log('yay!', res.body);
+                    product = new Product({
+                        code: body.code,
+                        description: body.description,
+                        img: res.body.photoid._content
+                    })
+    
+                    product.save(err => {
+                        if (err)
+                            throw err
+                        console.log("Product save")
+                    })
                 }).catch(function (err) {
                     console.error('bonk', err);
                 });
-                product = new Product({
-                    code: body.code,
-                    description: body.description,
-                    img: imgName
-                })
-
-                product.save(err => {
-                    if (err)
-                        throw err
-                    console.log("Product save")
-                })
 
             })
 

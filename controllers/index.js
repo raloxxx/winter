@@ -80,6 +80,9 @@ module.exports = async () => {
             const splitName = files.img.name.split('.')
             const ext = splitName[splitName.length - 1]
 
+            body.description = body.description.toUpperCase()
+
+            console.log(body)
 
 
             imgName = splitName[0] + '-' + Date.now() + '.' + ext
